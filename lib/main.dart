@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:marks_app/pages/settings_page.dart';
 import 'pages/note_page.dart';
 import 'pages/main_page.dart';
 
@@ -15,7 +16,7 @@ class _MaterialAppScreenState extends State<MaterialAppScreen> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: NotePage(),
+      home: SettingsPage(),
       theme: ThemeData(
           appBarTheme: const AppBarTheme(
               color: Colors.white,
