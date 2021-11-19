@@ -15,7 +15,7 @@ class _MaterialAppScreenState extends State<MaterialAppScreen> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: MainPage(),
+      home: NotePage(),
       theme: ThemeData(
           appBarTheme: const AppBarTheme(
               color: Colors.white,

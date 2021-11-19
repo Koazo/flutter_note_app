@@ -89,8 +89,8 @@ class _NotePageState extends State<NotePage> {
         Colors.lightBlue,
         Colors.purple[800]!,
         Colors.purple,
-        Colors.pink[800]!,
         Colors.pink,
+        Colors.black,
       ],
       onColorChanged: (color) {
         this.color = color;
