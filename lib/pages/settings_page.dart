@@ -18,7 +18,9 @@ class _SettingsPageState extends State<SettingsPage> {
         centerTitle: true,
         leading: IconButton(
           icon: const Icon(Icons.arrow_back_ios),
-          onPressed: () {},
+          onPressed: () {
+            Navigator.pop(context);
+          },
         ),
       ),
       body: Container(
@@ -38,8 +40,8 @@ class _SettingsPageState extends State<SettingsPage> {
               ),
             ),
             Row(
-              children: [
-                const Text(
+              children: const [
+                Text(
                   'Font size',
                   style: TextStyle(fontSize: 20),
                 ),
@@ -48,8 +50,8 @@ class _SettingsPageState extends State<SettingsPage> {
             Padding(
               padding: const EdgeInsets.only(top: 20, bottom: 20),
               child: Row(
-                children: [
-                  const Text(
+                children: const [
+                  Text(
                     'Sorting notes',
                     style: TextStyle(fontSize: 20),
                   ),
@@ -59,8 +61,8 @@ class _SettingsPageState extends State<SettingsPage> {
             Padding(
               padding: const EdgeInsets.only(bottom: 20),
               child: Row(
-                children: [
-                  const Text(
+                children: const [
+                  Text(
                     'Theme',
                     style: TextStyle(fontSize: 20),
                   ),
@@ -74,7 +76,7 @@ class _SettingsPageState extends State<SettingsPage> {
             ),
             Container(
               alignment: Alignment.center,
-              padding: EdgeInsets.only(top: 15),
+              padding: const EdgeInsets.only(top: 15),
               child: Text(
                 version,
                 style: TextStyle(

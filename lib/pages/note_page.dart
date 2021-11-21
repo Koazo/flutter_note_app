@@ -10,7 +10,7 @@ class NotePage extends StatefulWidget {
 }
 
 class _NotePageState extends State<NotePage> {
-  Color color = Colors.red;
+  Color color = Colors.black;
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +18,9 @@ class _NotePageState extends State<NotePage> {
       appBar: AppBar(
         centerTitle: true,
         leading: IconButton(
-          onPressed: () {},
+          onPressed: () {
+            Navigator.pop(context);
+          },
           icon: const Icon(Icons.arrow_back_ios),
           padding: const EdgeInsets.only(left: 10.0),
         ),

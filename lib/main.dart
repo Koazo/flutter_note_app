@@ -16,13 +16,17 @@ class _MaterialAppScreenState extends State<MaterialAppScreen> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: SettingsPage(),
+      home: MainPage(),
       theme: ThemeData(
           appBarTheme: const AppBarTheme(
               color: Colors.white,
               foregroundColor: Colors.black,
               elevation: 0.0),
           fontFamily: 'GothamPro'),
+      routes: <String, WidgetBuilder>{
+        '/note_page': (BuildContext context) => NotePage(),
+        '/settings_page': (BuildContext context) => SettingsPage(),
+      },
     );
   }
 }
