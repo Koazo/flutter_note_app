@@ -50,6 +50,7 @@ class _NotePageState extends State<NotePage> {
   void pickColor(BuildContext context) => showDialog(
         context: context,
         builder: (context) => AlertDialog(
+          scrollable: true,
           title: const Text('Pick note color'),
           content: Column(
             mainAxisSize: MainAxisSize.min,
@@ -133,7 +134,9 @@ class _NoteColumnState extends State<NoteColumn> {
             child: TextField(
               keyboardType: TextInputType.multiline,
               maxLines: 9999,
+              autofocus: true,
               style: TextStyle(fontSize: 18),
+              // mouseCursor: MaterialStateMouseCursor.textable,
             ),
           ),
         ),

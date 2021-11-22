@@ -23,6 +23,7 @@ class _MaterialAppScreenState extends State<MaterialAppScreen> {
               foregroundColor: Colors.black,
               elevation: 0.0),
           fontFamily: 'GothamPro'),
+      debugShowCheckedModeBanner: false,
       routes: <String, WidgetBuilder>{
         '/note_page': (BuildContext context) => NotePage(),
         '/settings_page': (BuildContext context) => SettingsPage(),

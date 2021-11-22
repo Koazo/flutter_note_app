@@ -63,7 +63,7 @@ class _SettingsPageState extends State<SettingsPage> {
               child: Row(
                 children: const [
                   Text(
-                    'Theme',
+                    'Dark Mode',
                     style: TextStyle(fontSize: 20),
                   ),
                 ],
