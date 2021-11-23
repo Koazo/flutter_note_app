@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 
-part 'note_model.g.dart';
+part 'note.g.dart';
 
 @HiveType(typeId: 1)
-class NoteModel {
+class Note extends HiveObject {
   @HiveField(0)
   int? id;
   @HiveField(1)
@@ -16,7 +17,7 @@ class NoteModel {
   @HiveField(4)
   Color? color;
 
-  NoteModel({
+  Note({
     this.id,
     this.title,
     this.content,

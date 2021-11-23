@@ -1,9 +1,21 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:hive/hive.dart';
+import 'package:hive_flutter/hive_flutter.dart';
+import 'package:marks_app/models/note.dart';
 import 'package:marks_app/pages/settings_page.dart';
+import 'package:path_provider/path_provider.dart';
 import 'pages/note_page.dart';
 import 'pages/main_page.dart';
 
-void main() => runApp(MaterialAppScreen());
+Future main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  Directory document = await getApplicationDocumentsDirectory();
+  await Hive.initFlutter(document.path);
+  await Hive.openBox<Note>('notes');
+  runApp(MaterialAppScreen());
+}
 
 class MaterialAppScreen extends StatefulWidget {
   const MaterialAppScreen({Key? key}) : super(key: key);

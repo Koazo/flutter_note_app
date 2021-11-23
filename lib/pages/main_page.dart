@@ -1,8 +1,25 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:marks_app/constants.dart';
+import 'package:marks_app/models/note.dart';
 
-class MainPage extends StatelessWidget {
+class MainPage extends StatefulWidget {
   const MainPage({Key? key}) : super(key: key);
+
+  @override
+  State<MainPage> createState() => _MainPageState();
+}
+
+class _MainPageState extends State<MainPage> {
+  late Box<Note> notesBox;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    notesBox = Hive.box('notes');
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -80,41 +97,56 @@ class MainPage extends StatelessWidget {
               icon: const Icon(Icons.settings_outlined)),
         ],
       ),
-
-      body: ListView.builder(
-          itemCount: 15,
-          itemBuilder: (_, index) {
-            // return customListTile('Заголовок', DateTime.now(), Colors.black,
-            //     Icon(Icons.bookmark));
-            return ListTile(
-              leading: const CircleAvatar(
-                child: Icon(Icons.bookmark),
-                backgroundColor: Colors.black,
-                foregroundColor: Colors.white,
-              ),
-              title: const Text(
-                'Заголовок',
-                style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.black),
-              ),
-              subtitle: Text(
-                DATE_FORMAT_MAIN.format(DateTime.now()),
-                style: const TextStyle(fontSize: 16),
-              ),
-              trailing: const Icon(
-                Icons.arrow_right,
-                color: Colors.black,
-              ),
-              onTap: () {
-                Navigator.pushNamed(
-                  context,
-                  '/note_page',
-                );
-              },
-            );
-          }),
+      body: ValueListenableBuilder(
+        valueListenable: notesBox.listenable(),
+        builder: (context, Box<Note> notes, _) {
+          return ListView.builder(
+            itemBuilder: (context, index) {
+              final key = notes.keys.toList()[index];
+              final title = notes.get(key);
+              final content = notes.get(key);
+              return ListTile();
+            },
+            itemCount: notesBox.keys.toList().length,
+          );
+        },
+      ),
     );
   }
 }
+
+
+// ListView.builder(
+//           itemCount: 15,
+//           itemBuilder: (_, index) {
+//             // return customListTile('Заголовок', DateTime.now(), Colors.black,
+//             //     Icon(Icons.bookmark));
+//             return ListTile(
+//               leading: const CircleAvatar(
+//                 child: Icon(Icons.bookmark),
+//                 backgroundColor: Colors.black,
+//                 foregroundColor: Colors.white,
+//               ),
+//               title: const Text(
+//                 'Заголовок',
+//                 style: TextStyle(
+//                     fontSize: 20,
+//                     fontWeight: FontWeight.bold,
+//                     color: Colors.black),
+//               ),
+//               subtitle: Text(
+//                 DATE_FORMAT_MAIN.format(DateTime.now()),
+//                 style: const TextStyle(fontSize: 16),
+//               ),
+//               trailing: const Icon(
+//                 Icons.arrow_right,
+//                 color: Colors.black,
+//               ),
+//               onTap: () {
+//                 Navigator.pushNamed(
+//                   context,
+//                   '/note_page',
+//                 );
+//               },
+//             );
+//           }),
