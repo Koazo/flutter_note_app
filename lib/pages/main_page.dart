@@ -6,7 +6,6 @@ class MainPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    bool _light = true;
     return Scaffold(
       // floatingActionButton: FloatingActionButton(
       //   child: const Icon(
@@ -81,6 +80,7 @@ class MainPage extends StatelessWidget {
               icon: const Icon(Icons.settings_outlined)),
         ],
       ),
+
       body: ListView.builder(
           itemCount: 15,
           itemBuilder: (_, index) {
