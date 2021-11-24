@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:marks_app/constants.dart';
 import 'package:marks_app/models/note.dart';
 import 'package:marks_app/pages/settings_page.dart';
 import 'package:path_provider/path_provider.dart';
@@ -13,7 +14,9 @@ Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
   Directory document = await getApplicationDocumentsDirectory();
   await Hive.initFlutter(document.path);
-  await Hive.openBox<Note>('notes');
+  Hive.registerAdapter(NoteAdapter());
+  Hive.registerAdapter(ColorAdapter());
+  await Hive.openBox<Note>(HIVE_NOTE_BOX);
   runApp(MaterialAppScreen());
 }
 

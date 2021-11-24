@@ -1,7 +1,9 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:marks_app/constants.dart';
+import 'package:marks_app/models/boxes.dart';
 import 'package:marks_app/models/note.dart';
 
 class MainPage extends StatefulWidget {
@@ -16,24 +18,122 @@ class _MainPageState extends State<MainPage> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
-    notesBox = Hive.box('notes');
+    notesBox = Hive.box(HIVE_NOTE_BOX);
+  }
+
+  @override
+  void dispose() {
+    Hive.close();
+    super.dispose();
+  }
+
+  Future addNote(
+      {String? title,
+      String? content,
+      DateTime? createdDate,
+      Color? color = Colors.black}) async {
+    final note = Note()
+      ..title = title
+      ..content = content
+      ..createdDate = DateTime.now()
+      ..color = color;
+
+    final box = Boxes.getNotes();
+    await box.add(note);
+  }
+
+  void editNote(Note note, String title, String content, Color color) {
+    note.title = title;
+    note.content = content;
+    note.color = color;
+
+    note.save();
+  }
+
+  void deleteNote(Note note) {
+    note.delete();
+  }
+
+  Widget buildContent(List<Note> notes) {
+    if (notes.isEmpty) {
+      const Center(
+        child: Text(
+          'No notes yet',
+          style: TextStyle(fontSize: 24),
+        ),
+      );
+    }
+
+    return ListView.builder(
+      itemBuilder: (context, index) {
+        final note = notes[index];
+        return ListTile(
+          leading: CircleAvatar(
+            child: Icon(Icons.bookmark),
+            backgroundColor: note.color,
+            foregroundColor: Colors.white,
+          ),
+          title: Text(
+            note.title.toString(),
+            style: TextStyle(
+                fontSize: 20, fontWeight: FontWeight.bold, color: note.color),
+          ),
+          subtitle: Text(
+            DATE_FORMAT_MAIN.format(note.createdDate!),
+            style: const TextStyle(fontSize: 16),
+          ),
+          trailing: const Icon(
+            Icons.arrow_right,
+            color: Colors.black,
+          ),
+          onTap: () {
+            Navigator.pushNamed(
+              context,
+              '/note_page',
+            );
+          },
+        );
+      },
+      itemCount: notes.length,
+    );
+  }
+
+  RichText buildAppBarTitle() {
+    return RichText(
+      text: const TextSpan(
+        children: [
+          TextSpan(
+            text: 'REMARKABLE ',
+            style: TextStyle(
+              color: Colors.black,
+              fontWeight: FontWeight.bold,
+              fontSize: 24,
+              fontFamily: 'GothamPro',
+            ),
+          ),
+          WidgetSpan(
+            child: Icon(Icons.bookmarks),
+          ),
+        ],
+      ),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // floatingActionButton: FloatingActionButton(
-      //   child: const Icon(
-      //     Icons.add,
-      //     color: Colors.white,
-      //   ),
-      //   onPressed: () {
-      //     Navigator.pushNamed(context, '/note_page');
-      //   },
-      //   backgroundColor: Colors.black,
-      // ),
+      appBar: AppBar(
+        title: buildAppBarTitle(),
+        centerTitle: true,
+        actions: [
+          IconButton(
+              onPressed: () {
+                Navigator.pushNamed(context, '/settings_page');
+              },
+              icon: const Icon(Icons.settings_outlined)),
+        ],
+      ),
       bottomNavigationBar: BottomAppBar(
         color: Colors.black,
         child: SizedBox(
@@ -41,11 +141,11 @@ class _MainPageState extends State<MainPage> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              const Padding(
+              Padding(
                 padding: EdgeInsets.only(left: 20),
                 child: Text(
-                  'Notes: 12',
-                  style: TextStyle(
+                  'Notes: ${returnNotesCount()}',
+                  style: const TextStyle(
                       color: Colors.white,
                       fontSize: 14,
                       fontWeight: FontWeight.bold),
@@ -61,92 +161,29 @@ class _MainPageState extends State<MainPage> {
                   size: 30,
                 ),
                 onPressed: () {
-                  Navigator.pushNamed(context, '/note_page');
+                  addNote(title: 'New note', content: '');
+                  // print(notesBox.values);
+                  Navigator.pushNamed(
+                    context,
+                    '/note_page',
+                  );
                 },
               )
             ],
           ),
         ),
       ),
-      // floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
-      appBar: AppBar(
-        title: RichText(
-          text: const TextSpan(
-            children: [
-              TextSpan(
-                text: 'REMARKABLE ',
-                style: TextStyle(
-                  color: Colors.black,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 24,
-                  fontFamily: 'GothamPro',
-                ),
-              ),
-              WidgetSpan(
-                child: Icon(Icons.bookmarks),
-              ),
-            ],
-          ),
-        ),
-        centerTitle: true,
-        actions: [
-          IconButton(
-              onPressed: () {
-                Navigator.pushNamed(context, '/settings_page');
-              },
-              icon: const Icon(Icons.settings_outlined)),
-        ],
-      ),
-      body: ValueListenableBuilder(
-        valueListenable: notesBox.listenable(),
-        builder: (context, Box<Note> notes, _) {
-          return ListView.builder(
-            itemBuilder: (context, index) {
-              final key = notes.keys.toList()[index];
-              final title = notes.get(key);
-              final content = notes.get(key);
-              return ListTile();
-            },
-            itemCount: notesBox.keys.toList().length,
-          );
+      body: ValueListenableBuilder<Box<Note>>(
+        valueListenable: Boxes.getNotes().listenable(),
+        builder: (context, box, _) {
+          final notes = box.values.toList().cast<Note>();
+          return buildContent(notes);
         },
       ),
     );
   }
+
+  int? returnNotesCount() {
+    return notesBox.values.toList().cast<Note>().length;
+  }
 }
-
-
-// ListView.builder(
-//           itemCount: 15,
-//           itemBuilder: (_, index) {
-//             // return customListTile('Заголовок', DateTime.now(), Colors.black,
-//             //     Icon(Icons.bookmark));
-//             return ListTile(
-//               leading: const CircleAvatar(
-//                 child: Icon(Icons.bookmark),
-//                 backgroundColor: Colors.black,
-//                 foregroundColor: Colors.white,
-//               ),
-//               title: const Text(
-//                 'Заголовок',
-//                 style: TextStyle(
-//                     fontSize: 20,
-//                     fontWeight: FontWeight.bold,
-//                     color: Colors.black),
-//               ),
-//               subtitle: Text(
-//                 DATE_FORMAT_MAIN.format(DateTime.now()),
-//                 style: const TextStyle(fontSize: 16),
-//               ),
-//               trailing: const Icon(
-//                 Icons.arrow_right,
-//                 color: Colors.black,
-//               ),
-//               onTap: () {
-//                 Navigator.pushNamed(
-//                   context,
-//                   '/note_page',
-//                 );
-//               },
-//             );
-//           }),
