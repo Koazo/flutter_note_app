@@ -3,4 +3,4 @@
 still in dev:
 
 
-![Screenshot_1637784607](https://user-images.githubusercontent.com/71566968/143306841-be9344ec-71b8-4b19-aedb-fce76feec637.png)
+![image](https://user-images.githubusercontent.com/71566968/143306917-d1742ff2-cec3-421a-a94c-1e2b958a35ad.png)
