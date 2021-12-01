@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
+import 'package:hive/hive.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:marks_app/constants.dart';
+import 'package:marks_app/models/note.dart';
 
 class NotePage extends StatefulWidget {
   const NotePage({Key? key}) : super(key: key);
@@ -11,6 +14,19 @@ class NotePage extends StatefulWidget {
 
 class _NotePageState extends State<NotePage> {
   Color color = Colors.black;
+  late Box<Note> notesBox;
+
+  @override
+  void initState() {
+    super.initState();
+    notesBox = Hive.box(Constants.hiveNoteBox);
+  }
+
+  @override
+  void dispose() {
+    Hive.close();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +42,7 @@ class _NotePageState extends State<NotePage> {
         ),
         actions: [
           colorPickerButton(),
-          DeleteButton(),
+          const DeleteButton(),
           const Padding(padding: EdgeInsets.only(right: 3.0)),
         ],
       ),
@@ -125,7 +141,7 @@ class _NoteColumnState extends State<NoteColumn> {
         Padding(
           padding: const EdgeInsets.symmetric(vertical: 5.0, horizontal: 13.0),
           child: Text(
-            DATE_FORMAT_NOTE.format(DateTime.now()).toLowerCase(),
+            Constants.dateFormatNote.format(DateTime.now()).toLowerCase(),
           ),
         ),
         const Expanded(

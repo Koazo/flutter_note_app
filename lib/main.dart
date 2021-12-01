@@ -1,8 +1,8 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:marks_app/constants.dart';
 import 'package:marks_app/models/note.dart';
 import 'package:marks_app/pages/settings_page.dart';
 import 'package:path_provider/path_provider.dart';
@@ -13,8 +13,10 @@ Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
   Directory document = await getApplicationDocumentsDirectory();
   await Hive.initFlutter(document.path);
-  await Hive.openBox<Note>('notes');
-  runApp(MaterialAppScreen());
+  Hive.registerAdapter(NoteAdapter());
+  Hive.registerAdapter(ColorAdapter());
+  await Hive.openBox<Note>(Constants.hiveNoteBox);
+  runApp(const MaterialAppScreen());
 }
 
 class MaterialAppScreen extends StatefulWidget {
@@ -28,7 +30,7 @@ class _MaterialAppScreenState extends State<MaterialAppScreen> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: MainPage(),
+      home: const MainPage(),
       theme: ThemeData(
           appBarTheme: const AppBarTheme(
               color: Colors.white,
@@ -37,8 +39,8 @@ class _MaterialAppScreenState extends State<MaterialAppScreen> {
           fontFamily: 'GothamPro'),
       debugShowCheckedModeBanner: false,
       routes: <String, WidgetBuilder>{
-        '/note_page': (BuildContext context) => NotePage(),
-        '/settings_page': (BuildContext context) => SettingsPage(),
+        '/note_page': (BuildContext context) => const NotePage(),
+        '/settings_page': (BuildContext context) => const SettingsPage(),
       },
     );
   }
