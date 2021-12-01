@@ -1,6 +1,8 @@
 import 'package:intl/intl.dart';
 
-DateFormat DATE_FORMAT_MAIN = DateFormat('d.M.yyyy H:mm');
-DateFormat DATE_FORMAT_NOTE = DateFormat('d MMMM H:mm');
-String version = '0.0.1';
-const String HIVE_NOTE_BOX = 'notes';
+class Constants {
+  static DateFormat dateFormatMain = DateFormat('d.M.yyyy H:mm');
+  static DateFormat dateFormatNote = DateFormat('d MMMM H:mm');
+  static const String version = '0.0.1';
+  static const String hiveNoteBox = 'notes';
+}

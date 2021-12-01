@@ -18,9 +18,8 @@ class _NotePageState extends State<NotePage> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
-    notesBox = Hive.box(HIVE_NOTE_BOX);
+    notesBox = Hive.box(Constants.hiveNoteBox);
   }
 
   @override
@@ -43,7 +42,7 @@ class _NotePageState extends State<NotePage> {
         ),
         actions: [
           colorPickerButton(),
-          DeleteButton(),
+          const DeleteButton(),
           const Padding(padding: EdgeInsets.only(right: 3.0)),
         ],
       ),
@@ -142,7 +141,7 @@ class _NoteColumnState extends State<NoteColumn> {
         Padding(
           padding: const EdgeInsets.symmetric(vertical: 5.0, horizontal: 13.0),
           child: Text(
-            DATE_FORMAT_NOTE.format(DateTime.now()).toLowerCase(),
+            Constants.dateFormatNote.format(DateTime.now()).toLowerCase(),
           ),
         ),
         const Expanded(

@@ -15,8 +15,8 @@ Future main() async {
   await Hive.initFlutter(document.path);
   Hive.registerAdapter(NoteAdapter());
   Hive.registerAdapter(ColorAdapter());
-  await Hive.openBox<Note>(HIVE_NOTE_BOX);
-  runApp(MaterialAppScreen());
+  await Hive.openBox<Note>(Constants.hiveNoteBox);
+  runApp(const MaterialAppScreen());
 }
 
 class MaterialAppScreen extends StatefulWidget {
@@ -30,7 +30,7 @@ class _MaterialAppScreenState extends State<MaterialAppScreen> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: MainPage(),
+      home: const MainPage(),
       theme: ThemeData(
           appBarTheme: const AppBarTheme(
               color: Colors.white,
@@ -39,8 +39,8 @@ class _MaterialAppScreenState extends State<MaterialAppScreen> {
           fontFamily: 'GothamPro'),
       debugShowCheckedModeBanner: false,
       routes: <String, WidgetBuilder>{
-        '/note_page': (BuildContext context) => NotePage(),
-        '/settings_page': (BuildContext context) => SettingsPage(),
+        '/note_page': (BuildContext context) => const NotePage(),
+        '/settings_page': (BuildContext context) => const SettingsPage(),
       },
     );
   }

@@ -78,7 +78,7 @@ class _SettingsPageState extends State<SettingsPage> {
               alignment: Alignment.center,
               padding: const EdgeInsets.only(top: 15),
               child: Text(
-                version,
+                Constants.version,
                 style: TextStyle(
                   fontSize: 20,
                   color: Colors.grey[500],

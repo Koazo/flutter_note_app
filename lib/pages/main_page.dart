@@ -19,7 +19,7 @@ class _MainPageState extends State<MainPage> {
   @override
   void initState() {
     super.initState();
-    notesBox = Hive.box(HIVE_NOTE_BOX);
+    notesBox = Hive.box(Constants.hiveNoteBox);
   }
 
   @override
@@ -70,7 +70,7 @@ class _MainPageState extends State<MainPage> {
         final note = notes[index];
         return ListTile(
           leading: CircleAvatar(
-            child: Icon(Icons.bookmark),
+            child: const Icon(Icons.bookmark),
             backgroundColor: note.color,
             foregroundColor: Colors.white,
           ),
@@ -80,7 +80,7 @@ class _MainPageState extends State<MainPage> {
                 fontSize: 20, fontWeight: FontWeight.bold, color: note.color),
           ),
           subtitle: Text(
-            DATE_FORMAT_MAIN.format(note.createdDate!),
+            Constants.dateFormatMain.format(note.createdDate!),
             style: const TextStyle(fontSize: 16),
           ),
           trailing: const Icon(
@@ -142,7 +142,7 @@ class _MainPageState extends State<MainPage> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Padding(
-                padding: EdgeInsets.only(left: 20),
+                padding: const EdgeInsets.only(left: 20),
                 child: Text(
                   'Notes: ${returnNotesCount()}',
                   style: const TextStyle(
