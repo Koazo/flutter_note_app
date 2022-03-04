@@ -72,16 +72,6 @@ class _NotePageState extends State<NotePage> {
             mainAxisSize: MainAxisSize.min,
             children: [
               buildColorPicker(),
-              // TextButton(
-              //   child: const Text(
-              //     'SELECT',
-              //     style: TextStyle(fontSize: 24),
-              //   ),
-              //   onPressed: () {
-              //     changeColor(color);
-              //     Navigator.of(context).pop();
-              //   },
-              // ),
             ],
           ),
         ),
